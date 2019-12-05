@@ -25,7 +25,9 @@ app.post('/api/users', (req, res) => {
 });
 
 app.get('/api/users', (req, res) => {
-  res.json(db);
+  db.find().then(response => {
+    res.status(200).json(response)
+  })
 });
 
 app.get('/api/users/:id', (req, res) => {
@@ -52,9 +54,6 @@ app.delete('/api/users/:id', (req, res) => {
       res.status(200).json({
         url: `/api/users/${id}`
       })
-        .catch(err => {
-          // still working on this.
-        })
     })
 })
 
