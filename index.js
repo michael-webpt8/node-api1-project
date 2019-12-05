@@ -36,17 +36,23 @@ app.get('/api/users/:id', (req, res) => {
   db.findById(id).then(response => {
     if (req.params.id === id) {
       res
-        .status(200)
+        .status(201)
         .json({
           url: `/api/users/${id}`,
           user: response
         })
-    } else if (req.params.id !== id) {
-      res.status(404).json({ message: "The user with the specified ID does not exist." })
-    } else {
-      res.status(500).json({ errorMessage: "The user information could not be modified." })
     }
-  });
+  })
+    .then(response => {
+      if (response !== id) {
+        res.status(404).json({ message: "The user with the specified ID does not exist." })
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: "The user information could not be modified." })
+    })
+
+
 });
 
 app.delete('/api/users/:id', (req, res) => {
