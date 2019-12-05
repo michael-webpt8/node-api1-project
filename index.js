@@ -20,8 +20,13 @@ app.post('/api/users', (req, res) => {
     bio: req.body.bio
   };
 
-  db.insert(newUser);
-  res.status(201).json(newUser);
+  db.insert(newUser).then(response => {
+    res.status(201).json(newUser);
+  })
+    .catch(err => {
+      res.status(500).json({ errorMessage: "There was an error while saving the user to the database" })
+    })
+
 });
 
 app.get('/api/users', (req, res) => {
