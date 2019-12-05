@@ -34,20 +34,14 @@ app.get('/api/users/:id', (req, res) => {
   const id = req.params.id;
 
   db.findById(id).then(response => {
-    if (req.params.id === id) {
+    if (!response) {
+      res.status(404).json({ message: "The user with the specified ID does not exist." })
+    } else {
       res
-        .status(201)
-        .json({
-          url: `/api/users/${id}`,
-          user: response
-        })
+        .status(201).send(response)
     }
+
   })
-    .then(response => {
-      if (response !== id) {
-        res.status(404).json({ message: "The user with the specified ID does not exist." })
-      }
-    })
     .catch(err => {
       res.status(500).json({ errorMessage: "The user information could not be modified." })
     })
