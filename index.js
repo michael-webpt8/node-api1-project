@@ -44,6 +44,20 @@ app.get('/api/users/:id', (req, res) => {
   });
 });
 
+app.delete('/api/users/:id', (req, res) => {
+  const id = req.params.id;
+
+  db.findById(id)
+    .then(response => {
+      res.status(200).json({
+        url: `/api/users/${id}`
+      })
+        .catch(err => {
+          // still working on this.
+        })
+    })
+})
+
 app.listen(port, host, () => {
   console.log(`server listening on http://${host}:${port}`);
 });
