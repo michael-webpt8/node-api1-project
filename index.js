@@ -54,14 +54,14 @@ app.delete('/api/users/:id', (req, res) => {
 
   db.remove(id)
     .then(response => {
-      if (response === id) {
-        return res.status(200).json({ message: 'User Deleted' });
+      if (!response) {
+        return res.status(404).json({ message: "The user with the specified ID does not exist." })
+      } else {
+        return res.status(201).json({ message: 'User Deleted' });
       }
     })
     .then(response => {
-      if (response !== id) {
-        return res.status(404).json({ message: "The user with the specified ID does not exist." })
-      }
+
 
     })
     .catch(err => {
