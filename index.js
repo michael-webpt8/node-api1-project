@@ -33,6 +33,9 @@ app.get('/api/users', (req, res) => {
   db.find().then(response => {
     res.status(200).json(response)
   })
+    .catch(err => {
+      res.status(500).json({ errorMessage: "The users information could not be retrieved." })
+    })
 });
 
 app.get('/api/users/:id', (req, res) => {
